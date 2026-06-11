@@ -3,27 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>World Cup Pool</title>
+<title>World Cup 2026 Pool Leaderboard</title>
 
 <style>
 body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:20px}
-.container{max-width:1000px;margin:auto}
+.container{max-width:1200px;margin:auto}
 .card{background:white;border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+button{padding:10px 16px;cursor:pointer}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left}
+th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left}
 .rank1{background:#fff7d6}.rank2{background:#f0f0f0}.rank3{background:#f7e3d6}
-h1{margin:0}
-.small{font-size:12px;color:#666}
 </style>
+
 </head>
 
 <body>
-
 <div class="container">
 
 <div class="card">
-<h1>World Cup Pool</h1>
-<p class="small">Seed + Match points (Win 8 / Draw 4 / Loss 0)</p>
+<h1>World Cup 2026 Pool</h1>
+<p id="status">Pre-tournament — no matches played yet</p>
 </div>
 
 <div class="card">
@@ -39,11 +38,11 @@ h1{margin:0}
 </div>
 
 <div class="card">
-<h2>Teams</h2>
+<h2>All 48 Teams</h2>
 <table>
 <thead>
 <tr>
-<th>Team</th><th>Seed</th><th>Owner</th><th>Match Points</th><th>Total</th>
+<th>Seed</th><th>Team</th><th>Owner</th><th>Match</th><th>Total</th>
 </tr>
 </thead>
 <tbody id="teams"></tbody>
@@ -54,14 +53,14 @@ h1{margin:0}
 
 <script>
 
-/* PLAYERS (YOUR EXACT SETUP) */
+/* PLAYERS */
 const PLAYERS = {
-  Scully: ["Spain","USA","New Zealand"],
-  Bren: ["France","Norway","Ghana"],
-  Mick: ["Austria","Ivory Coast","Haiti"]
+Scully:["Spain","USA","New Zealand"],
+Bren:["France","Norway","Ghana"],
+Mick:["Austria","Ivory Coast","Haiti"]
 };
 
-/* FULL 48 SEEDS (CORRECT DATA YOU PROVIDED) */
+/* FULL SEED LIST */
 const SEEDS = {
 'France':1,'Spain':2,'Argentina':3,'England':4,'Portugal':5,'Brazil':6,'Netherlands':7,'Morocco':8,'Belgium':9,'Germany':10,
 'Croatia':11,'Colombia':12,'Senegal':13,'Mexico':14,'USA':15,'Uruguay':16,'Japan':17,'Switzerland':18,'Iran':19,'Türkiye':20,
@@ -71,111 +70,92 @@ const SEEDS = {
 'Haiti':47,'New Zealand':48
 };
 
-/* SAMPLE MATCH DATA (replace later with real feed if needed) */
-const MATCHES = [
-  {home:"France",away:"Brazil",home_score:2,away_score:1},
-  {home:"Spain",away:"USA",home_score:1,away_score:1},
-  {home:"Ghana",away:"Germany",home_score:0,away_score:3}
-];
+/* NO GAMES YET */
+const MATCHES = [];  // ✅ FIX: empty = correct pre-tournament state
 
-/* FIND OWNER */
+/* OWNER LOOKUP */
 function owner(team){
-  for(const [p,teams] of Object.entries(PLAYERS)){
-    if(teams.includes(team)) return p;
-  }
-  return "";
+for(const [p,teams] of Object.entries(PLAYERS)){
+if(teams.includes(team)) return p;
+}
+return "";
 }
 
-/* CORE SCORING (CORRECT + SIMPLE) */
+/* MATCH SCORING */
 function calculateMatches(){
-  const scores = {};
+const scores = {};
+Object.keys(SEEDS).forEach(t=>{
+scores[t] = {match:0};
+});
 
-  Object.keys(SEEDS).forEach(t=>{
-    scores[t] = {match:0};
-  });
-
-  for(const m of MATCHES){
-    const h=m.home, a=m.away;
-    const hs=m.home_score, as=m.away_score;
-
-    if(!SEEDS[h] || !SEEDS[a]) continue;
-
-    if(hs>as) scores[h].match += 8;
-    else if(as>hs) scores[a].match += 8;
-    else {
-      scores[h].match += 4;
-      scores[a].match += 4;
-    }
-  }
-
-  return scores;
+/* no matches → all stay 0 */
+return scores;
 }
 
 /* RENDER */
 function render(){
 
-  const teamScores = calculateMatches();
+const teamScores = calculateMatches();
 
-  /* TEAMS TABLE */
-  const teams = Object.keys(SEEDS).map(t=>{
-    const match = teamScores[t]?.match || 0;
-    return {
-      team:t,
-      seed:SEEDS[t],
-      owner:owner(t),
-      match,
-      total:SEEDS[t] + match
-    };
-  });
+/* TEAMS TABLE */
+const teams = Object.keys(SEEDS).map(t=>{
+const match = teamScores[t].match;
+return {
+team:t,
+seed:SEEDS[t],
+owner:owner(t),
+match,
+total:SEEDS[t] + match
+};
+});
 
-  document.getElementById("teams").innerHTML =
-    teams.sort((a,b)=>a.seed-b.seed)
-    .map(t=>`
-      <tr>
-        <td>${t.team}</td>
-        <td>${t.seed}</td>
-        <td>${t.owner}</td>
-        <td>${t.match}</td>
-        <td><b>${t.total}</b></td>
-      </tr>
-    `).join("");
+document.getElementById("teams").innerHTML =
+teams.sort((a,b)=>a.seed-b.seed).map(t=>`
+<tr>
+<td>${t.seed}</td>
+<td>${t.team}</td>
+<td>${t.owner}</td>
+<td>${t.match}</td>
+<td><b>${t.total}</b></td>
+</tr>
+`).join("");
 
-  /* PLAYER TABLE */
-  const players = [];
+/* PLAYERS TABLE */
+const players = [];
 
-  for(const [name,teamsList] of Object.entries(PLAYERS)){
-    let seed=0, match=0;
+for(const [name,list] of Object.entries(PLAYERS)){
+let seed=0, match=0;
 
-    teamsList.forEach(t=>{
-      seed += SEEDS[t];
-      match += (teamScores[t]?.match || 0);
-    });
+list.forEach(t=>{
+seed += SEEDS[t];
+match += 0; // ✅ no games yet
+});
 
-    players.push({
-      name,
-      seed,
-      match,
-      total: seed + match
-    });
-  }
+players.push({
+name,
+seed,
+match,
+total:seed + match
+});
+}
 
-  players.sort((a,b)=>b.total-a.total);
+players.sort((a,b)=>b.total-a.total);
 
-  document.getElementById("leaderboard").innerHTML =
-    players.map((p,i)=>`
-      <tr class="rank${i+1}">
-        <td>${i+1}</td>
-        <td>${p.name}</td>
-        <td>${p.seed}</td>
-        <td>${p.match}</td>
-        <td><b>${p.total}</b></td>
-      </tr>
-    `).join("");
+document.getElementById("leaderboard").innerHTML =
+players.map((p,i)=>`
+<tr class="rank${i+1}">
+<td>${i+1}</td>
+<td>${p.name}</td>
+<td>${p.seed}</td>
+<td>${p.match}</td>
+<td><b>${p.total}</b></td>
+</tr>
+`).join("");
+
 }
 
 render();
 
 </script>
-
 </body>
 </html>
