@@ -420,28 +420,41 @@ function calculateMatches(games) {
 
   if (!Array.isArray(games)) return scores;
 
+  let processedCount = 0;
+
   games.forEach(g => {
+    // 1. Pull the team strings safely
     const rawHome = g.home_team_en || g.home_team || g.homeTeam || g.home || "";
     const rawAway = g.away_team_en || g.away_team || g.awayTeam || g.away || "";
 
     const home = findInternalTeamKey(rawHome);
     const away = findInternalTeamKey(rawAway);
 
-    const hs = parseInt(g.home_score ?? g.homeScore ?? -1);
-    const as = parseInt(g.away_score ?? g.awayScore ?? -1);
+    // 2. Safely parse values and fall back to -1 if they are null/undefined/empty
+    const homeRawScore = g.home_score ?? g.homeScore ?? g.home_team_score ?? -1;
+    const awayRawScore = g.away_score ?? g.awayScore ?? g.away_team_score ?? -1;
+    
+    // Check for empty strings or nulls explicitly before passing to parseInt
+    const hs = (homeRawScore === "" || homeRawScore === null) ? -1 : parseInt(homeRawScore);
+    const as = (awayRawScore === "" || awayRawScore === null) ? -1 : parseInt(awayRawScore);
 
-    if (home && away && hs >= 0 && as >= 0) {
-      if (hs > as) {
-        scores[home].match += 8;
-      } else if (as > hs) {
-        scores[away].match += 8;
-      } else {
-        scores[home].match += 4;
-        scores[away].match += 4;
-      }
+    // 3. Skip if the game is unplayed, invalid, or returned NaN
+    if (isNaN(hs) || isNaN(as) || hs < 0 || as < 0) return;
+    if (!home || !away) return;
+
+    // 4. Calculate distributions
+    processedCount++;
+    if (hs > as) {
+      scores[home].match += 8;
+    } else if (as > hs) {
+      scores[away].match += 8;
+    } else {
+      scores[home].match += 4;
+      scores[away].match += 4;
     }
   });
 
+  console.log(`Successfully calculated scores for ${processedCount} completed matches.`);
   return scores;
 }
 
