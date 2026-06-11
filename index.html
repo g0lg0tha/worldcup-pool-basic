@@ -123,7 +123,6 @@
     text-shadow: 0 2px 4px #000;
   }
 
-  /* Grid Layout Implementations with fluid scaling breakpoints */
   .column-headers, .capsule-row {
     display: grid;
     align-items: center;
@@ -204,7 +203,6 @@
     font-weight: 500;
   }
 
-  /* Responsive 48 Teams Setup Layout Matrix */
   .double-deck {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -385,6 +383,28 @@ const FLAG_CODES = {
 
 let teamScores = {};
 
+function normalizeName(str) {
+  if (!str) return "";
+  return str.normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+}
+
+function findInternalTeamKey(apiName) {
+  const normApi = normalizeName(apiName);
+  if (!normApi) return null;
+
+  for (const teamKey of Object.keys(SEEDS)) {
+    if (normalizeName(teamKey) === normApi) return teamKey;
+  }
+  for (const teamKey of Object.keys(SEEDS)) {
+    const normKey = normalizeName(teamKey);
+    if (normApi.includes(normKey) || normKey.includes(normApi)) return teamKey;
+  }
+  return null;
+}
+
 function owner(team) {
   for (const [p, teams] of Object.entries(PLAYERS)) {
     if (teams.includes(team)) return p;
@@ -398,20 +418,26 @@ function calculateMatches(games) {
     scores[t] = { match: 0 };
   });
 
+  if (!Array.isArray(games)) return scores;
+
   games.forEach(g => {
-    const home = g.home_team || g.homeTeam || g.home;
-    const away = g.away_team || g.awayTeam || g.away;
+    const rawHome = g.home_team_en || g.home_team || g.homeTeam || g.home || "";
+    const rawAway = g.away_team_en || g.away_team || g.awayTeam || g.away || "";
+
+    const home = findInternalTeamKey(rawHome);
+    const away = findInternalTeamKey(rawAway);
+
     const hs = parseInt(g.home_score ?? g.homeScore ?? -1);
     const as = parseInt(g.away_score ?? g.awayScore ?? -1);
 
-    if (scores[home] !== undefined && scores[away] !== undefined && hs >= 0 && as >= 0) {
+    if (home && away && hs >= 0 && as >= 0) {
       if (hs > as) {
-        scores[home].match += 8; // 8 Points for Home Win
+        scores[home].match += 8;
       } else if (as > hs) {
-        scores[away].match += 8; // 8 Points for Away Win
+        scores[away].match += 8;
       } else {
-        scores[home].match += 4; // 4 Points for Draw
-        scores[away].match += 4; // 4 Points for Draw
+        scores[home].match += 4;
+        scores[away].match += 4;
       }
     }
   });
@@ -422,22 +448,30 @@ function calculateMatches(games) {
 async function refreshData() {
   document.getElementById('status').innerText = 'Refreshing entries...';
   try {
-    // Fetches live results via the safe AllOrigins container proxy
     const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://worldcup26.ir/get/games'));
     const wrappedData = await response.json();
     
     const parsedPayload = JSON.parse(wrappedData.contents);
-    const gamesList = Array.isArray(parsedPayload) ? parsedPayload : (parsedPayload.games || parsedPayload.data || []);
+    let gamesList = [];
+    if (Array.isArray(parsedPayload)) {
+      gamesList = parsedPayload;
+    } else if (parsedPayload && parsedPayload.matches) {
+      gamesList = parsedPayload.matches;
+    } else if (parsedPayload && parsedPayload.games) {
+      gamesList = parsedPayload.games;
+    } else if (parsedPayload && parsedPayload.data) {
+      gamesList = parsedPayload.data;
+    }
     
     teamScores = calculateMatches(gamesList);
     localStorage.setItem('wc26scores_8pt', JSON.stringify(teamScores));
     document.getElementById('status').innerText = 'Live update: ' + new Date().toLocaleString();
   } catch (error) {
+    console.error(error);
     const backupCache = localStorage.getItem('wc26scores_8pt');
     if (backupCache) {
       teamScores = JSON.parse(backupCache);
     } else {
-      // Fallback baseline initialization if offline entirely on first launch
       Object.keys(SEEDS).forEach(t => { teamScores[t] = { match: 0 }; });
     }
     document.getElementById('status').innerText = 'Live feed unavailable - using cached data';
@@ -446,7 +480,6 @@ async function refreshData() {
 }
 
 function render() {
-  /* PROCESS DOUBLE DECK NATIONS */
   const teams = Object.keys(SEEDS).map(t => {
     const match = teamScores[t] ? teamScores[t].match : 0;
     const teamOwner = owner(t);
@@ -481,7 +514,6 @@ function render() {
   document.getElementById("teams-left").innerHTML = leftHalf.map(capsuleMapper).join("");
   document.getElementById("teams-right").innerHTML = rightHalf.map(capsuleMapper).join("");
 
-  /* PROCESS PLAYER STANDINGS */
   const players = [];
   for (const [name, list] of Object.entries(PLAYERS)) {
     let seed = 0, match = 0;
@@ -492,7 +524,6 @@ function render() {
     players.push({ name, seed, match, total: seed + match });
   }
 
-  // Sorted from highest total to lowest total
   players.sort((a, b) => b.total - a.total);
 
   document.getElementById("leaderboard").innerHTML =
@@ -515,10 +546,7 @@ function render() {
     }).join("");
 }
 
-// Initial engine activation on launch
 refreshData();
-
-// Runs an automatic live feed update every 2 hours
 setInterval(refreshData, 7200000);
 </script>
 </body>
