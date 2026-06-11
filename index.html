@@ -2,33 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>World Cup 2026 Pool Leaderboard</title>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Oswald:wght@400;500;600&display=swap');
 
   :root {
-    --bronze-metallic: linear-gradient(135deg, #a8795c 0%, #634029 40%, #8f5f40 70%, #3d2314 100%);
-    --gold-medal: linear-gradient(135deg, #ffe885 0%, #f3b137 40%, #b88219 70%, #8a5d08 100%);
-    --silver-medal: linear-gradient(135deg, #ffffff 0%, #cccccc 40%, #999999 70%, #666666 100%);
-    --bronze-medal: linear-gradient(135deg, #f0b28a 0%, #c47c52 40%, #94532b 70%, #592e14 100%);
-    
-    --inner-bg: linear-gradient(180deg, #523421 0%, #361f11 100%);
-    --slot-bg: linear-gradient(180deg, #2b180d 0%, #190d07 100%);
-    
-    --border-color: #bfa084;
-    --text-gold: #ffd9a3;
+    --metallic-chassis: linear-gradient(145deg, #a47657 0%, #613b23 25%, #361f11 50%, #7d4f32 75%, #221209 100%);
+    --inner-wood-plate: #492817;
+    --capsule-bg: linear-gradient(180deg, #241309 0%, #170b04 100%);
+    --gold-trim: #ffd294;
+    --text-value: #ffd9a3;
   }
 
   body {
-    font-family: 'Cormorant Garamond', serif;
-    background: linear-gradient(rgba(19, 10, 6, 0.45), rgba(10, 5, 3, 0.8)), 
+    font-family: 'Oswald', sans-serif;
+    /* Exact moody library atmosphere match */
+    background: radial-gradient(circle at 50% 30%, rgba(20, 10, 5, 0.3) 0%, rgba(10, 4, 1, 0.95) 85%), 
                 url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2136&auto=format&fit=crop') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
     margin: 0;
-    padding: 30px 15px;
+    padding: 30px 16px;
     display: flex;
     justify-content: center;
   }
@@ -38,225 +34,214 @@
     max-width: 1050px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 24px;
   }
 
-  /* Ornate Filigree Corner Accents via CSS vectors */
-  .filigree-card {
-    background: var(--inner-bg);
-    border: 3px solid #6e462f;
-    outline: 1px solid #946345;
-    outline-offset: -7px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.8);
-    position: relative;
+  /* Structural Ornate Chassis / Outer Frame */
+  .luxury-panel {
+    background: var(--metallic-chassis);
+    border: 2px solid #1a0c05;
     border-radius: 12px;
-    padding: 30px;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 8px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 1px 3px rgba(255,255,255,0.25);
   }
 
-  /* Structural Ornate Header */
-  .main-title-box {
-    border: 2px solid #573622;
-    background: #1f110a;
-    padding: 12px 60px;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 4px 10px rgba(0,0,0,0.5);
-    text-align: center;
+  .inner-wood-board {
+    background: var(--inner-wood-plate);
+    border: 2px solid #28140a;
+    border-radius: 6px;
+    padding: 24px;
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.85);
     position: relative;
-    margin-bottom: 5px;
-    border-radius: 4px;
   }
-  .main-title-box::before, .main-title-box::after {
-    content: "❖";
-    color: #8c5839;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1rem;
-  }
-  .main-title-box::before { left: 20px; }
-  .main-title-box::after { right: 20px; }
 
-  h1 {
+  /* Ornate Header Widget Layout */
+  .header-widget {
+    text-align: center;
+    background: #140904;
+    border: 2px solid #54311c;
+    border-radius: 4px;
+    padding: 14px 45px;
+    box-shadow: inset 0 0 15px #000, 0 4px 15px rgba(0,0,0,0.6);
+    margin: 0 auto;
+    display: table;
+  }
+
+  .header-widget h1 {
     font-family: 'Cinzel', serif;
-    margin: 0;
-    font-size: 1.9rem;
+    margin: 0 0 4px 0;
+    font-size: 2.1rem;
     font-weight: 700;
     letter-spacing: 3px;
-    color: #fce3c3;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    color: var(--gold-trim);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
   }
 
-  /* Status Ribbon */
-  .status-bar {
-    background: linear-gradient(90deg, transparent, #422515 15%, #422515 85%, transparent);
-    border-top: 1px solid #633921;
-    border-bottom: 1px solid #633921;
-    padding: 6px 40px;
-    font-size: 0.9rem;
-    letter-spacing: 1.5px;
+  .status-ribbon {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: #9c6c4c;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #c7a385;
-    text-shadow: 0 1px 2px #000;
-    margin-bottom: 15px;
-    font-weight: bold;
-    text-align: center;
+    border-top: 1px solid #331b0e;
+    padding-top: 4px;
+    display: block;
   }
 
-  /* Widget Section Titles */
-  .section-header {
+  .section-title {
     font-family: 'Cinzel', serif;
     text-align: center;
-    font-size: 1.3rem;
-    color: #f7dfc1;
+    font-size: 1.35rem;
+    color: var(--gold-trim);
     letter-spacing: 2px;
-    margin: 0 auto 20px auto;
-    padding: 4px 30px;
-    background: linear-gradient(90deg, transparent, #241309 20%, #241309 80%, transparent);
-    display: table;
-    border-bottom: 1px solid #73452b;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
   }
 
-  /* Grid Layout for Double Tables */
-  .teams-grid {
+  /* Structural Column Header Rows */
+  .column-headers {
+    display: grid;
+    grid-template-columns: 80px 1fr 140px 140px 140px;
+    padding: 0 12px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .column-headers span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: #bca08d;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Individual Sunk-In Skele Capsule Displays */
+  .capsule-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 140px 140px 140px;
+    align-items: center;
+    background: var(--capsule-bg);
+    border-top: 1px solid #472615;
+    border-bottom: 1px solid #0d0502;
+    border-left: 1px solid #28140a;
+    border-right: 1px solid #28140a;
+    border-radius: 20px; /* Smooth physical pill container edge shape */
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    text-align: center;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.05);
+  }
+
+  .left-align { text-align: left !important; }
+
+  /* Precise Medal Array Render Vectors */
+  .medal-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #110501;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .gold-layer { background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #9a6e1a 100%); }
+  .silver-layer { background: linear-gradient(135deg, #ffffff 0%, #b0bec5 50%, #546e7a 100%); }
+  .bronze-layer { background: linear-gradient(135deg, #ffb74d 0%, #a1887f 50%, #4e342e 100%); }
+
+  .rank-pill-value {
+    font-family: 'Cinzel', serif;
+    color: #bca08d;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .contender-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 2px 3px #000;
+  }
+
+  .score-cell-digits {
+    font-size: 1.4rem;
+    color: var(--text-value);
+    font-weight: 500;
+  }
+
+  /* National Teams Double-Column Deck Arrangement */
+  .double-deck {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  @media (max-width: 850px) {
-    .teams-grid { grid-template-columns: 1fr; }
+  @media (max-width: 900px) {
+    .double-deck { grid-template-columns: 1fr; }
   }
 
-  /* Table Custom resets */
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 6px;
-    font-size: 0.95rem;
+  .team-headers {
+    display: grid;
+    grid-template-columns: 60px 1fr 110px 70px 70px;
+    padding: 0 12px;
+    margin-bottom: 6px;
+    text-align: center;
   }
-
-  th {
+  .team-headers span {
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
-    color: #cca485;
-    letter-spacing: 1px;
+    color: #bca08d;
     text-transform: uppercase;
-    padding: 4px 8px;
-    text-align: center;
-    border-bottom: 1px solid #54331f;
   }
 
-  td {
-    padding: 10px 12px;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  /* Metallic Embedded Metallic Display Slots */
-  tr.slot td {
-    background: var(--slot-bg);
-    border-top: 1px solid #3d2214;
-    border-bottom: 1px solid #140804;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-  }
-  tr.slot td:first-child {
-    border-left: 1px solid #3d2214;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    font-family: 'Cinzel', serif;
-    color: #cca485;
-  }
-  tr.slot td:last-child {
-    border-right: 1px solid #3d2214;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #ffcc80;
-  }
-
-  /* Align text components left where necessary */
-  .text-left { text-align: left !important; }
-
-  /* Realistic Ribbon-Hanging Physical Medals */
-  .medal-box {
-    display: inline-flex;
+  .team-capsule-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 110px 70px 70px;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #1f1007;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.2);
-  }
-  .medal-box::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    width: 14px;
-    height: 10px;
-    z-index: -1;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  }
-  
-  .med-1 { background: var(--gold-medal); }
-  .med-1::before { background: linear-gradient(90deg, #d32f2f 0%, #ff6b6b 50%, #d32f2f 100%); }
-  
-  .med-2 { background: var(--silver-medal); }
-  .med-2::before { background: linear-gradient(90deg, #1976d2 0%, #64b5f6 50%, #1976d2 100%); }
-  
-  .med-3 { background: var(--bronze-medal); }
-  .med-3::before { background: linear-gradient(90deg, #388e3c 0%, #81c784 50%, #388e3c 100%); }
-
-  .rank-pill {
-    background: #140b06;
-    border: 1px solid #3d2214;
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: #a1826b;
-    font-size: 0.8rem;
+    background: var(--capsule-bg);
+    border-top: 1px solid #472615;
+    border-bottom: 1px solid #0d0502;
+    border-radius: 16px;
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    text-align: center;
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
   }
 
-  /* Flag Graphics */
-  .flag-wrapper {
+  .flag-box-element {
     display: inline-flex;
     align-items: center;
     gap: 10px;
   }
-  .flag-wrapper img {
+  .flag-box-element img {
     width: 22px;
     height: 14px;
     object-fit: cover;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.7);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
   }
-  .flag-wrapper span {
-    font-weight: 700;
+  .flag-box-element span {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #fff;
-    font-size: 0.95rem;
   }
 
-  /* Dynamic Owner Badges */
-  .owner-txt {
-    font-family: sans-serif;
+  .owner-capsule-badge {
     font-size: 0.85rem;
-    color: #dfbda2;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(148, 99, 69, 0.2);
-    padding: 3px 12px;
-    border-radius: 12px;
+    color: #ebd1be;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #5a3c2a;
+    padding: 2px 10px;
+    border-radius: 10px;
     display: inline-block;
   }
-  .unowned-txt {
-    color: #5e4130;
+  .vacant-badge {
+    color: #492e1f;
     font-style: italic;
     font-size: 0.85rem;
   }
@@ -266,63 +251,59 @@
 
 <div class="container">
 
-  <div class="filigree-card" style="padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center;">
-    <div class="main-title-box">
-      <h1>World Cup 2026 Pool</h1>
-    </div>
-    <div class="status-bar" id="status">⚽ Pre-tournament — no matches played yet</div>
-  </div>
-
-  <div class="filigree-card">
-    <div class="section-header">Player Leaderboard</div>
-    <div style="overflow-x: auto;">
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 12%">Rank</th>
-            <th class="text-left">Player</th>
-            <th>Seed Score</th>
-            <th>Match Score</th>
-            <th>Total Points</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="filigree-card">
-    <div class="section-header">All 48 Teams</div>
-    <div class="teams-grid">
-      
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 12%">Seed</th>
-              <th class="text-left">Team</th>
-              <th>Owner</th>
-              <th>Match</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="teams-left"></tbody>
-        </table>
+  <div class="luxury-panel" style="align-self: center;">
+    <div class="inner-wood-board" style="padding: 10px;">
+      <div class="header-widget">
+        <h1>World Cup 2026 Pool</h1>
+        <span class="status-ribbon" id="status">⚽ Pre-tournament — no matches played yet</span>
       </div>
+    </div>
+  </div>
 
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 12%">Seed</th>
-              <th class="text-left">Team</th>
-              <th>Owner</th>
-              <th>Match</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="teams-right"></tbody>
-        </table>
+  <div class="luxury-panel">
+    <div class="inner-wood-board">
+      <div class="section-title">Player Leaderboard</div>
+      
+      <div class="column-headers">
+        <span>Rank</span>
+        <span class="left-align">Player</span>
+        <span>Seed Score</span>
+        <span>Match Score</span>
+        <span>Total Points</span>
+      </div>
+      
+      <div id="leaderboard"></div>
+    </div>
+  </div>
+
+  <div class="luxury-panel">
+    <div class="inner-wood-board">
+      <div class="section-title">All 48 Teams</div>
+      
+      <div class="double-deck">
+        
+        <div>
+          <div class="team-headers">
+            <span>Seed</span>
+            <span class="left-align">Team</span>
+            <span>Owner</span>
+            <span>Match</span>
+            <span>Total</span>
+          </div>
+          <div id="teams-left"></div>
+        </div>
+
+        <div>
+          <div class="team-headers">
+            <span>Seed</span>
+            <span class="left-align">Team</span>
+            <span>Owner</span>
+            <span>Match</span>
+            <span>Total</span>
+          </div>
+          <div id="teams-right"></div>
+        </div>
+
       </div>
 
     </div>
@@ -331,14 +312,12 @@
 </div>
 
 <script>
-/* PLAYERS */
 const PLAYERS = {
   Scully: ["Spain", "USA", "New Zealand"],
   Bren: ["France", "Norway", "Ghana"],
   Mick: ["Austria", "Ivory Coast", "Haiti"]
 };
 
-/* FULL SEED LIST */
 const SEEDS = {
   'France':1,'Spain':2,'Argentina':3,'England':4,'Portugal':5,'Brazil':6,'Netherlands':7,'Morocco':8,'Belgium':9,'Germany':10,
   'Croatia':11,'Colombia':12,'Senegal':13,'Mexico':14,'USA':15,'Uruguay':16,'Japan':17,'Switzerland':18,'Iran':19,'Türkiye':20,
@@ -348,7 +327,6 @@ const SEEDS = {
   'Haiti':47,'New Zealand':48
 };
 
-/* SYSTEM COUNTRY FLAGS */
 const FLAG_CODES = {
   'France':'fr','Spain':'es','Argentina':'ar','England':'gb-eng','Portugal':'pt','Brazil':'br','Netherlands':'nl','Morocco':'ma',
   'Belgium':'be','Germany':'de','Croatia':'hr','Colombia':'co','Senegal':'sn','Mexico':'mx','USA':'us','Uruguay':'uy','Japan':'jp',
@@ -378,7 +356,7 @@ function calculateMatches() {
 function render() {
   const teamScores = calculateMatches();
 
-  /* ARRANGE TEAMS SYSTEM */
+  /* PROCESS DOUBLE DECK NATIONS */
   const teams = Object.keys(SEEDS).map(t => {
     const match = teamScores[t].match;
     const teamOwner = owner(t);
@@ -387,37 +365,33 @@ function render() {
       team: t,
       seed: SEEDS[t],
       flagUrl: `https://flagcdn.com/w40/${code}.png`,
-      ownerHtml: teamOwner ? `<span class="owner-txt">${teamOwner}</span>` : `<span class="unowned-txt">Unowned</span>`,
+      ownerHtml: teamOwner ? `<span class="owner-capsule-badge">${teamOwner}</span>` : `<span class="vacant-badge">—</span>`,
       match,
       total: SEEDS[t] + match
     };
   });
 
   const sortedTeams = teams.sort((a, b) => a.seed - b.seed);
-  
-  // Split cleanly into left (1-24) and right (25-48) layout tracks
   const leftHalf = sortedTeams.slice(0, 24);
   const rightHalf = sortedTeams.slice(24, 48);
 
-  const rowMapper = t => `
-    <tr class="slot">
-      <td>${t.seed}</td>
-      <td class="text-left">
-        <div class="flag-wrapper">
-          <img src="${t.flagUrl}" alt="" onerror="this.style.display='none'">
-          <span>${t.team.toUpperCase()}</span>
-        </div>
-      </td>
-      <td>${t.ownerHtml}</td>
-      <td>${t.match}</td>
-      <td>${t.total}</td>
-    </tr>
+  const capsuleMapper = t => `
+    <div class="team-capsule-row">
+      <span class="rank-pill-value">${t.seed}</span>
+      <div class="flag-box-element left-align">
+        <img src="${t.flagUrl}" alt="" onerror="this.style.display='none'">
+        <span>${t.team}</span>
+      </div>
+      <div>${t.ownerHtml}</div>
+      <div class="score-cell-digits">${t.match}</div>
+      <div class="score-cell-digits" style="font-weight:700; color:#ffcc80;">${t.total}</div>
+    </div>
   `;
 
-  document.getElementById("teams-left").innerHTML = leftHalf.map(rowMapper).join("");
-  document.getElementById("teams-right").innerHTML = rightHalf.map(rowMapper).join("");
+  document.getElementById("teams-left").innerHTML = leftHalf.map(capsuleMapper).join("");
+  document.getElementById("teams-right").innerHTML = rightHalf.map(capsuleMapper).join("");
 
-  /* ARRANGE PLAYERS LEADERBOARD */
+  /* PROCESS PLAYER STANDINGS */
   const players = [];
   for (const [name, list] of Object.entries(PLAYERS)) {
     let seed = 0, match = 0;
@@ -433,21 +407,19 @@ function render() {
   document.getElementById("leaderboard").innerHTML =
     players.map((p, i) => {
       const rankNum = i + 1;
-      let placementMarkup = `<span class="rank-pill">${rankNum}</span>`;
-      if (rankNum <= 3) {
-        placementMarkup = `<div class="medal-box med-${rankNum}">${rankNum}</div>`;
-      }
+      let rankMarkup = `<span class="rank-pill-value">${rankNum}</span>`;
+      if (rankNum === 1) rankMarkup = `<div class="medal-circle gold-layer">${rankNum}</div>`;
+      if (rankNum === 2) rankMarkup = `<div class="medal-circle silver-layer">${rankNum}</div>`;
+      if (rankNum === 3) rankMarkup = `<div class="medal-circle bronze-layer">${rankNum}</div>`;
 
       return `
-        <tr class="slot">
-          <td>${placementMarkup}</td>
-          <td class="text-left" style="font-size: 1.15rem; font-weight: 700; letter-spacing: 0.5px; color:#fff;">
-            ${p.name.toUpperCase()}
-          </td>
-          <td>${p.seed}</td>
-          <td>${p.match}</td>
-          <td>${p.total}</td>
-        </tr>
+        <div class="capsule-row">
+          <div>${rankMarkup}</div>
+          <div class="contender-name left-align">${p.name.toUpperCase()}</div>
+          <div class="score-cell-digits">${p.seed}</div>
+          <div class="score-cell-digits">${p.match}</div>
+          <div class="score-cell-digits" style="font-weight: 700; color: #ffcc80; font-size: 1.5rem;">${p.total}</div>
+        </div>
       `;
     }).join("");
 }
