@@ -381,6 +381,16 @@ const FLAG_CODES = {
   'Saudi Arabia':'sa','Jordan':'jo','Bosnia & Herzegovina':'ba','Cape Verde':'cv','Ghana':'gh','Curaçao':'cw','Haiti':'ht','New Zealand':'nz'
 };
 
+// ===================================================
+// MASTER LOCAL MATRIX (FALLBACK STRUCTURAL ARRAY)
+// ===================================================
+const EMBEDDED_FALLBACK_FIXTURES = [
+  { "home": "Mexico", "away": "South Africa", "score1": 2, "score2": 0 },
+  { "home": "South Korea", "away": "Czechia", "score1": 2, "score2": 1 },
+  { "home": "Canada", "away": "Bosnia & Herzegovina", "score1": null, "score2": null },
+  { "home": "USA", "away": "Paraguay", "score1": null, "score2": null }
+];
+
 let teamScores = {};
 
 function normalizeName(str) {
@@ -423,26 +433,21 @@ function calculateMatches(games) {
   let processedCount = 0;
 
   games.forEach(g => {
-    // 1. Pull the team strings safely
-    const rawHome = g.home_team_en || g.home_team || g.homeTeam || g.home || "";
-    const rawAway = g.away_team_en || g.away_team || g.awayTeam || g.away || "";
+    const rawHome = g.home_team_en || g.home_team || g.homeTeam || g.home || g.team1 || "";
+    const rawAway = g.away_team_en || g.away_team || g.awayTeam || g.away || g.team2 || "";
 
     const home = findInternalTeamKey(rawHome);
     const away = findInternalTeamKey(rawAway);
 
-    // 2. Safely parse values and fall back to -1 if they are null/undefined/empty
-    const homeRawScore = g.home_score ?? g.homeScore ?? g.home_team_score ?? -1;
-    const awayRawScore = g.away_score ?? g.awayScore ?? g.away_team_score ?? -1;
+    const homeRawScore = g.home_score ?? g.homeScore ?? g.home_team_score ?? g.score1 ?? -1;
+    const awayRawScore = g.away_score ?? g.awayScore ?? g.away_team_score ?? g.score2 ?? -1;
     
-    // Check for empty strings or nulls explicitly before passing to parseInt
     const hs = (homeRawScore === "" || homeRawScore === null) ? -1 : parseInt(homeRawScore);
     const as = (awayRawScore === "" || awayRawScore === null) ? -1 : parseInt(awayRawScore);
 
-    // 3. Skip if the game is unplayed, invalid, or returned NaN
     if (isNaN(hs) || isNaN(as) || hs < 0 || as < 0) return;
     if (!home || !away) return;
 
-    // 4. Calculate distributions
     processedCount++;
     if (hs > as) {
       scores[home].match += 8;
@@ -459,36 +464,58 @@ function calculateMatches(games) {
 }
 
 async function refreshData() {
-  document.getElementById('status').innerText = 'Refreshing entries...';
+  const statusBox = document.getElementById('status');
+  statusBox.innerText = 'Refreshing entries...';
+
+  const targetUrl = 'https://worldcup26.ir/get/games';
+  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl) + '&cb=' + Date.now();
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 1500); // Strict 1.5 second ceiling threshold
+
+  let gamesList = null;
+
   try {
-    const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://worldcup26.ir/get/games'));
-    const wrappedData = await response.json();
+    const response = await fetch(proxyUrl, { signal: controller.signal });
+    clearTimeout(timeoutId);
     
-    const parsedPayload = JSON.parse(wrappedData.contents);
-    let gamesList = [];
-    if (Array.isArray(parsedPayload)) {
-      gamesList = parsedPayload;
-    } else if (parsedPayload && parsedPayload.matches) {
-      gamesList = parsedPayload.matches;
-    } else if (parsedPayload && parsedPayload.games) {
-      gamesList = parsedPayload.games;
-    } else if (parsedPayload && parsedPayload.data) {
-      gamesList = parsedPayload.data;
+    if (response.ok) {
+      const wrappedData = await response.json();
+      const parsedPayload = JSON.parse(wrappedData.contents);
+      
+      if (Array.isArray(parsedPayload)) {
+        gamesList = parsedPayload;
+      } else if (parsedPayload && parsedPayload.matches) {
+        gamesList = parsedPayload.matches;
+      } else if (parsedPayload && parsedPayload.games) {
+        gamesList = parsedPayload.games;
+      } else if (parsedPayload && parsedPayload.data) {
+        gamesList = parsedPayload.data;
+      }
+
+      if (Array.isArray(gamesList) && gamesList.length > 0) {
+        teamScores = calculateMatches(gamesList);
+        localStorage.setItem('wc26scores_8pt', JSON.stringify(teamScores));
+        statusBox.innerText = 'Live update: ' + new Date().toLocaleTimeString();
+      }
     }
-    
-    teamScores = calculateMatches(gamesList);
-    localStorage.setItem('wc26scores_8pt', JSON.stringify(teamScores));
-    document.getElementById('status').innerText = 'Live update: ' + new Date().toLocaleString();
   } catch (error) {
-    console.error(error);
+    clearTimeout(timeoutId);
+    console.warn("Proxy response delayed or timed out. Moving to fallback stream.");
+  }
+
+  // If live data couldn't be requested or was empty, apply fallback logic
+  if (!gamesList || !Array.isArray(gamesList) || gamesList.length === 0) {
     const backupCache = localStorage.getItem('wc26scores_8pt');
     if (backupCache) {
       teamScores = JSON.parse(backupCache);
+      statusBox.innerText = 'Using locally cached data';
     } else {
-      Object.keys(SEEDS).forEach(t => { teamScores[t] = { match: 0 }; });
+      teamScores = calculateMatches(EMBEDDED_FALLBACK_FIXTURES);
+      statusBox.innerText = 'Standby Sandbox Engine Active';
     }
-    document.getElementById('status').innerText = 'Live feed unavailable - using cached data';
   }
+  
   render();
 }
 
