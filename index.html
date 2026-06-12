@@ -2,358 +2,294 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>World Cup 2026 Pool Leaderboard</title>
-
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght=600;700;800&family=Oswald:wght=400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght=600;700;800&family=Oswald:wght=400;500;600&display=swap');
 
-  :root {
-    --metallic-chassis: linear-gradient(145deg, #a47657 0%, #613b23 25%, #361f11 50%, #7d4f32 75%, #221209 100%);
-    --inner-wood-plate: #492817;
-    --capsule-bg: linear-gradient(180deg, #241309 0%, #170b04 100%);
-    --gold-trim: #ffd294;
-    --text-value: #ffd9a3;
-  }
+:root {
+--metallic-chassis: linear-gradient(145deg, #a47657 0%, #613b23 25%, #361f11 50%, #7d4f32 75%, #221209 100%);
+--inner-wood-plate: #492817;
+--capsule-bg: linear-gradient(180deg, #241309 0%, #170b04 100%);
+--gold-trim: #ffd294;
+--text-value: #ffd9a3;
+}
 
-  body {
-    font-family: 'Oswald', sans-serif;
-    background: radial-gradient(circle at 50% 30%, rgba(20, 10, 5, 0.3) 0%, rgba(10, 4, 1, 0.95) 85%), 
-                url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2136&auto=format&fit=crop') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-    margin: 0;
-    padding: clamp(10px, 4vw, 30px) clamp(4px, 2vw, 16px);
-    display: flex;
-    justify-content: center;
-  }
+body {
+font-family: 'Oswald', sans-serif;
+background: radial-gradient(circle at 50% 30%, rgba(20, 10, 5, 0.3) 0%, rgba(10, 4, 1, 0.95) 85%),
+url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2136&auto=format&fit=crop') no-repeat center center fixed;
+background-size: cover;
+color: #fff;
+margin: 0;
+padding: clamp(10px, 4vw, 30px) clamp(4px, 2vw, 16px);
+display: flex;
+justify-content: center;
+}
 
-  .container {
-    width: 100%;
-    max-width: 1050px;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(12px, 3vw, 24px);
-  }
+.container {
+width: 100%;
+max-width: 1050px;
+display: flex;
+flex-direction: column;
+gap: clamp(12px, 3vw, 24px);
+}
 
-  .luxury-panel {
-    background: var(--metallic-chassis);
-    border: 2px solid #1a0c05;
-    border-radius: 12px;
-    padding: clamp(4px, 1.5vw, 8px);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 1px 3px rgba(255,255,255,0.25);
-    box-sizing: border-box;
-    width: 100%;
-  }
+.luxury-panel {
+background: var(--metallic-chassis);
+border: 2px solid #1a0c05;
+border-radius: 12px;
+padding: clamp(4px, 1.5vw, 8px);
+box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 1px 3px rgba(255,255,255,0.25);
+box-sizing: border-box;
+width: 100%;
+}
 
-  .inner-wood-board {
-    background: var(--inner-wood-plate);
-    border: 2px solid #28140a;
-    border-radius: 6px;
-    padding: clamp(10px, 3vw, 24px);
-    box-shadow: inset 0 10px 30px rgba(0,0,0,0.85);
-    position: relative;
-    box-sizing: border-box;
-  }
+.inner-wood-board {
+background: var(--inner-wood-plate);
+border: 2px solid #28140a;
+border-radius: 6px;
+padding: clamp(10px, 3vw, 24px);
+box-shadow: inset 0 10px 30px rgba(0,0,0,0.85);
+box-sizing: border-box;
+}
 
-  .header-widget {
-    text-align: center;
-    background: #140904;
-    border: 2px solid #54311c;
-    border-radius: 4px;
-    padding: 14px clamp(15px, 5vw, 45px);
-    box-shadow: inset 0 0 15px #000, 0 4px 15px rgba(0,0,0,0.6);
-    margin: 0 auto;
-    display: table;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 500px;
-  }
+.header-widget {
+text-align: center;
+background: #140904;
+border: 2px solid #54311c;
+border-radius: 4px;
+padding: 14px clamp(15px, 5vw, 45px);
+box-shadow: inset 0 0 15px #000, 0 4px 15px rgba(0,0,0,0.6);
+margin: 0 auto;
+display: table;
+box-sizing: border-box;
+width: 100%;
+max-width: 500px;
+}
 
-  .header-widget h1 {
-    font-family: 'Cinzel', serif;
-    margin: 0 0 4px 0;
-    font-size: clamp(1.4rem, 4vw, 2.1rem);
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--gold-trim);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
-  }
+.header-widget h1 {
+font-family: 'Cinzel', serif;
+margin: 0 0 6px 0;
+font-size: clamp(1.4rem, 4vw, 2.1rem);
+font-weight: 700;
+letter-spacing: 2px;
+color: var(--gold-trim);
+text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+}
 
-  .status-ribbon {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.65rem, 2vw, 0.85rem);
-    color: #bca08d;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-top: 1px solid #331b0e;
-    padding-top: 6px;
-    margin-top: 6px;
-    display: block;
-  }
+.status-ribbon {
+font-family: 'Cinzel', serif;
+font-size: clamp(0.65rem, 2vw, 0.85rem);
+color: #bca08d;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+border-top: 1px solid #331b0e;
+padding-top: 6px;
+margin-top: 6px;
+display: block;
+}
 
-  button {
-    background: linear-gradient(180deg, #8c5d43 0%, #462a1a 100%);
-    border: 1px solid #1a0c05;
-    color: #f7dfc1;
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    padding: 6px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    text-shadow: 0 1px 2px #000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    transition: filter 0.2s;
-  }
-  button:hover {
-    filter: brightness(1.2);
-  }
+button {
+background: linear-gradient(180deg, #8c5d43 0%, #462a1a 100%);
+border: 1px solid #1a0c05;
+color: #f7dfc1;
+font-family: 'Cinzel', serif;
+font-size: 0.75rem;
+font-weight: bold;
+letter-spacing: 1px;
+padding: 6px 14px;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+text-shadow: 0 1px 2px #000;
+box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+transition: filter 0.2s;
+}
+button:hover { filter: brightness(1.2); }
 
-  .section-title {
-    font-family: 'Cinzel', serif;
-    text-align: center;
-    font-size: clamp(1.1rem, 3.5vw, 1.35rem);
-    color: var(--gold-trim);
-    letter-spacing: 2px;
-    margin: 0 0 20px 0;
-    text-transform: uppercase;
-    text-shadow: 0 2px 4px #000;
-  }
+.section-title {
+font-family: 'Cinzel', serif;
+text-align: center;
+font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+color: var(--gold-trim);
+letter-spacing: 2px;
+margin: 0 0 20px 0;
+text-transform: uppercase;
+text-shadow: 0 2px 4px #000;
+}
 
-  .column-headers, .capsule-row {
-    display: grid;
-    align-items: center;
-    text-align: center;
-    gap: 4px;
-    grid-template-columns: 50px 1fr 65px 75px 75px;
-  }
+.grid-headers, .capsule-row {
+display: grid;
+align-items: center;
+text-align: center;
+gap: 4px;
+}
 
-  @media (min-width: 600px) {
-    .column-headers, .capsule-row {
-      grid-template-columns: 80px 1fr 140px 140px 140px;
-    }
-  }
+.leaderboard-cols { grid-template-columns: 35px 1.5fr 40px 45px 45px 50px; }
+.team-cols { grid-template-columns: 35px 1.4fr 0.8fr 35px 35px 35px 35px; }
 
-  .column-headers span {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.6rem, 1.8vw, 0.75rem);
-    color: #bca08d;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-  .left-align { text-align: left !important; }
+@media (min-width: 650px) {
+.leaderboard-cols { grid-template-columns: 80px 1fr 120px 120px 120px 120px; }
+.team-cols { grid-template-columns: 70px 1.5fr 1.2fr 100px 100px 100px 100px; }
+}
 
-  .capsule-row {
-    background: var(--capsule-bg);
-    border-top: 1px solid #472615;
-    border-bottom: 1px solid #0d0502;
-    border-left: 1px solid #28140a;
-    border-right: 1px solid #28140a;
-    border-radius: 20px;
-    padding: 8px clamp(6px, 2vw, 12px);
-    margin-bottom: 8px;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.05);
-  }
+.grid-headers span {
+font-family: 'Cinzel', serif;
+font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+color: #bca08d;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+font-weight: bold;
+}
 
-  .medal-circle {
-    width: clamp(26px, 4vw, 34px);
-    height: clamp(26px, 4vw, 34px);
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-weight: 800;
-    font-size: clamp(0.75rem, 2.5vw, 0.95rem);
-    color: #110501;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.2);
-    margin: 0 auto;
-  }
-  .gold-layer { background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #9a6e1a 100%); }
-  .silver-layer { background: linear-gradient(135deg, #ffffff 0%, #b0bec5 50%, #546e7a 100%); }
-  .bronze-layer { background: linear-gradient(135deg, #ffb74d 0%, #a1887f 50%, #4e342e 100%); }
+.left-align { text-align: left !important; }
 
-  .rank-pill-value {
-    font-family: 'Cinzel', serif;
-    color: #bca08d;
-    font-size: clamp(0.85rem, 3vw, 1.1rem);
-    font-weight: 700;
-  }
+.capsule-row {
+background: var(--capsule-bg);
+border-top: 1px solid #472615;
+border-bottom: 1px solid #0d0502;
+border-left: 1px solid #28140a;
+border-right: 1px solid #28140a;
+border-radius: 20px;
+padding: 8px clamp(6px, 2vw, 14px);
+margin-bottom: 8px;
+box-shadow: inset 0 4px 10px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.05);
+}
 
-  .contender-name {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.85rem, 3.2vw, 1.3rem);
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: #fff;
-    text-shadow: 0 2px 3px #000;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.medal-circle {
+width: clamp(24px, 4vw, 32px);
+height: clamp(24px, 4vw, 32px);
+border-radius: 50%;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+font-family: 'Cinzel', serif;
+font-weight: 800;
+font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+color: #110501;
+box-shadow: 0 3px 6px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.6);
+border: 1px solid rgba(255,255,255,0.2);
+margin: 0 auto;
+}
 
-  .score-cell-digits {
-    font-size: clamp(1rem, 3.5vw, 1.4rem);
-    color: var(--text-value);
-    font-weight: 500;
-  }
+.rank-pill-value {
+font-family: 'Cinzel', serif;
+color: #bca08d;
+font-size: clamp(0.85rem, 3vw, 1.1rem);
+font-weight: 700;
+}
 
-  .double-deck {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  
-  .team-headers, .team-capsule-row {
-    display: grid;
-    align-items: center;
-    text-align: center;
-    gap: 4px;
-    grid-template-columns: 40px 1fr 70px 45px 45px;
-  }
+.med-1 { background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #9a6e1a 100%); }
+.med-2 { background: linear-gradient(135deg, #ffffff 0%, #b0bec5 50%, #546e7a 100%); }
+.med-3 { background: linear-gradient(135deg, #ffb74d 0%, #a1887f 50%, #4e342e 100%); }
 
-  @media (min-width: 600px) {
-    .team-headers, .team-capsule-row {
-      grid-template-columns: 60px 1fr 110px 70px 70px;
-    }
-  }
+.contender-name {
+font-family: 'Cinzel', serif;
+font-size: clamp(0.85rem, 3.2vw, 1.25rem);
+font-weight: 700;
+letter-spacing: 0.5px;
+color: #fff;
+text-shadow: 0 2px 3px #000;
+padding-left: 4px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
 
-  @media (max-width: 900px) {
-    .double-deck { grid-template-columns: 1fr; gap: 0; }
-    .team-headers-right { display: none !important; }
-    .team-headers { margin-bottom: 4px; }
-  }
+.player-contender-name { font-size: clamp(0.75rem, 3vw, 1.25rem) !important; }
 
-  .team-headers span {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(0.6rem, 1.8vw, 0.75rem);
-    color: #bca08d;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
+.team-contender-name {
+font-size: clamp(0.7rem, 2.2vw, 1.05rem) !important;
+white-space: normal;
+line-height: 1.2;
+display: flex;
+align-items: center;
+gap: 6px;
+}
 
-  .team-capsule-row {
-    background: var(--capsule-bg);
-    border-top: 1px solid #472615;
-    border-bottom: 1px solid #0d0502;
-    border-radius: 16px;
-    padding: 6px clamp(6px, 2vw, 12px);
-    margin-bottom: 6px;
-    box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
-  }
+.flag-icon {
+font-family: 'Twemoji Country Flags', 'Oswald', sans-serif;
+font-size: 1.2em;
+font-style: normal;
+display: inline-block;
+vertical-align: middle;
+}
 
-  .flag-box-element {
-    display: inline-flex;
-    align-items: center;
-    gap: clamp(4px, 1.5vw, 10px);
-    overflow: hidden;
-  }
-  .flag-box-element img {
-    width: clamp(18px, 3.5vw, 22px);
-    height: clamp(11px, 2.2vw, 14px);
-    object-fit: cover;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.85);
-    border: 1px solid rgba(255,255,255,0.1);
-    flex-shrink: 0;
-  }
-  .flag-box-element span {
-    font-size: clamp(0.8rem, 2.8vw, 1rem);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.score-cell-digits {
+font-size: clamp(0.95rem, 3.5vw, 1.35rem);
+color: var(--text-value);
+font-weight: 500;
+}
 
-  .owner-capsule-badge {
-    font-size: clamp(0.65rem, 2vw, 0.85rem);
-    color: #ebd1be;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid #5a3c2a;
-    padding: 2px clamp(4px, 1.5vw, 10px);
-    border-radius: 10px;
-    display: inline-block;
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .vacant-badge {
-    color: #523423;
-    font-style: italic;
-    font-size: 0.85rem;
-  }
+.team-cols .score-cell-digits { font-size: clamp(0.8rem, 2.8vw, 1.15rem); }
+
+.owner-capsule-badge {
+font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+color: #ebd1be;
+background: rgba(0, 0, 0, 0.4);
+border: 1px solid #5a3c2a;
+padding: 2px clamp(4px, 1.2vw, 10px);
+border-radius: 10px;
+display: inline-block;
+max-width: 95%;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+.vacant-badge { color: #523423; font-style: italic; font-size: 0.8rem; }
 </style>
+
+<script type="module" defer>
+import { polyfillCountryFlagEmojis } from "https://cdn.skypack.dev/country-flag-emoji-polyfill";
+polyfillCountryFlagEmojis();
+</script>
+
 </head>
 <body>
 
 <div class="container">
-
-  <div class="luxury-panel" style="align-self: center; width: auto;">
-    <div class="inner-wood-board" style="padding: 10px;">
-      <div class="header-widget">
-        <h1>World Cup 2026 Pool</h1>
-        <span class="status-ribbon" id="status">Loading scoreboard feed...</span>
-        <button onclick="refreshData()">Refresh Now</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="luxury-panel">
-    <div class="inner-wood-board">
-      <div class="section-title">Player Leaderboard</div>
-      
-      <div class="column-headers">
-        <span>Rank</span>
-        <span class="left-align">Player</span>
-        <span>Seed</span>
-        <span>Match</span>
-        <span>Total</span>
-      </div>
-      
-      <div id="leaderboard"></div>
-    </div>
-  </div>
-
-  <div class="luxury-panel">
-    <div class="inner-wood-board">
-      <div class="section-title">All 48 Teams</div>
-      
-      <div class="double-deck">
-        
-        <div>
-          <div class="team-headers">
-            <span>Seed</span>
-            <span class="left-align">Team</span>
-            <span>Owner</span>
-            <span>Match</span>
-            <span>Total</span>
-          </div>
-          <div id="teams-left"></div>
+    <div class="luxury-panel" style="align-self: center; width: auto;">
+        <div class="inner-wood-board" style="padding: 10px;">
+            <div class="header-widget">
+                <h1>World Cup 2026 Pool</h1>
+                <span class="status-ribbon" id="status">Syncing Data Feed...</span>
+                <button onclick="refreshData()">Force Live Refresh</button>
+            </div>
         </div>
-
-        <div>
-          <div class="team-headers team-headers-right">
-            <span>Seed</span>
-            <span class="left-align">Team</span>
-            <span>Owner</span>
-            <span>Match</span>
-            <span>Total</span>
-          </div>
-          <div id="teams-right"></div>
-        </div>
-
-      </div>
-
     </div>
-  </div>
 
+    <div class="luxury-panel">
+        <div class="inner-wood-board">
+            <div class="section-title">Player Leaderboard</div>
+            <div class="grid-headers leaderboard-cols">
+                <span>Rank</span>
+                <span class="left-align">Player</span>
+                <span>Seed</span>
+                <span>Match</span>
+                <span>Bonus</span>
+                <span>Total</span>
+            </div>
+            <div id="leaderboard"></div>
+        </div>
+    </div>
+
+    <div class="luxury-panel">
+        <div class="inner-wood-board">
+            <div class="section-title">All 48 Teams</div>
+            <div class="grid-headers team-cols">
+                <span>Seed</span>
+                <span class="left-align">Team</span>
+                <span>Owner</span>
+                <span>Seed</span>
+                <span>Match</span>
+                <span>Bonus</span>
+                <span>Total</span>
+            </div>
+            <div id="teams"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -363,231 +299,185 @@ const PLAYERS = {
   Mick: ["Austria", "Ivory Coast", "Haiti"]
 };
 
-const SEEDS = {
-  'France':1,'Spain':2,'Argentina':3,'England':4,'Portugal':5,'Brazil':6,'Netherlands':7,'Morocco':8,'Belgium':9,'Germany':10,
-  'Croatia':11,'Colombia':12,'Senegal':13,'Mexico':14,'USA':15,'Uruguay':16,'Japan':17,'Switzerland':18,'Iran':19,'Türkiye':20,
-  'Ecuador':21,'Austria':22,'South Korea':23,'Australia':24,'Algeria':25,'Egypt':26,'Canada':27,'Norway':28,'Panama':29,
-  'Ivory Coast':30,'Sweden':31,'Paraguay':32,'Czechia':33,'Scotland':34,'Tunisia':35,'DR Congo':36,'Uzbekistan':37,'Qatar':38,
-  'Iraq':39,'South Africa':40,'Saudi Arabia':41,'Jordan':42,'Bosnia & Herzegovina':43,'Cape Verde':44,'Ghana':45,'Curaçao':46,
-  'Haiti':47,'New Zealand':48
+const SEEDS={
+    'France':1,'Spain':2,'Argentina':3,'England':4,'Portugal':5,'Brazil':6,'Netherlands':7,'Morocco':8,'Belgium':9,'Germany':10,
+    'Croatia':11,'Colombia':12,'Senegal':13,'Mexico':14,'USA':15,'Uruguay':16,'Japan':17,'Switzerland':18,'Iran':19,'Türkiye':20,
+    'Ecuador':21,'Austria':22,'South Korea':23,'Australia':24,'Algeria':25,'Egypt':26,'Canada':27,'Norway':28,'Panama':29,
+    'Ivory Coast':30,'Sweden':31,'Paraguay':32,'Czechia':33,'Scotland':34,'Tunisia':35,'DR Congo':36,'Uzbekistan':37,'Qatar':38,
+    'Iraq':39,'South Africa':40,'Saudi Arabia':41,'Jordan':42,'Bosnia & Herzegovina':43,'Cape Verde':44,'Ghana':45,'Curaçao':46,
+    'Haiti':47,'New Zealand':48
 };
 
-const FLAG_CODES = {
-  'France':'fr','Spain':'es','Argentina':'ar','England':'gb-eng','Portugal':'pt','Brazil':'br','Netherlands':'nl','Morocco':'ma',
-  'Belgium':'be','Germany':'de','Croatia':'hr','Colombia':'co','Senegal':'sn','Mexico':'mx','USA':'us','Uruguay':'uy','Japan':'jp',
-  'Switzerland':'ch','Iran':'ir','Türkiye':'tr','Ecuador':'ec','Austria':'at','South Korea':'kr','Australia':'au','Algeria':'dz',
-  'Egypt':'eg','Canada':'ca','Norway':'no','Panama':'pa','Ivory Coast':'ci','Sweden':'se','Paraguay':'py','Czechia':'cz',
-  'Scotland':'gb-sct','Tunisia':'tn','DR Congo':'cd','Uzbekistan':'uz','Qatar':'qa','Iraq':'iq','South Africa':'za',
-  'Saudi Arabia':'sa','Jordan':'jo','Bosnia & Herzegovina':'ba','Cape Verde':'cv','Ghana':'gh','Curaçao':'cw','Haiti':'ht','New Zealand':'nz'
+const FLAGS={
+    'France':'🇫🇷','Spain':'🇪🇸','Argentina':'🇦🇷','England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Portugal':'🇵🇹','Brazil':'🇧🇷','Netherlands':'🇳🇱','Morocco':'🇲🇦',
+    'Belgium':'🇧🇪','Germany':'🇩🇪','Croatia':'🇭🇷','Colombia':'🇨🇴','Senegal':'🇸🇳','Mexico':'🇲🇽','USA':'🇺🇸','Uruguay':'🇺🇾',
+    'Japan':'🇯🇵','Switzerland':'🇨🇭','Iran':'🇮🇷','Türkiye':'🇹🇷','Ecuador':'🇪🇨','Austria':'🇦🇹','South Korea':'🇰🇷','Australia':'🇦🇺',
+    'Algeria':'🇩🇿','Egypt':'🇪🇬','Canada':'🇨🇦','Norway':'🇳🇴','Panama':'🇵🇦','Ivory Coast':'🇨🇮','Sweden':'🇸🇪','Paraguay':'🇵🇾',
+    'Czechia':'🇨🇿','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Tunisia':'🇹🇳','DR Congo':'🇨🇩','Uzbekistan':'🇺🇿','Qatar':'🇶🇦','Iraq':'🇮🇶','South Africa':'🇿🇦',
+    'Saudi Arabia':'🇸🇦','Jordan':'🇯🇴','Bosnia & Herzegovina':'🇧🇦','Cape Verde':'🇨🇻','Ghana':'🇬🇭','Curaçao':'🇨🇼','Haiti':'🇭🇹','New Zealand':'🇳🇿'
 };
 
-// ===================================================
-// MASTER LOCAL MATRIX (FALLBACK STRUCTURAL ARRAY)
-// ===================================================
+// ==========================================
+// MASTER EMBEDDED TOURNAMENT DATA MATRIX
+// ==========================================
 const EMBEDDED_FALLBACK_FIXTURES = [
-  { "home": "Mexico", "away": "South Africa", "score1": 2, "score2": 0 },
-  { "home": "South Korea", "away": "Czechia", "score1": 2, "score2": 1 },
-  { "home": "Canada", "away": "Bosnia & Herzegovina", "score1": null, "score2": null },
-  { "home": "USA", "away": "Paraguay", "score1": null, "score2": null }
+  { "home": "Mexico", "away": "South Africa", "score1": 2, "score2": 0, "ht_score1": 1, "ht_score2": 0 },
+  { "home": "South Korea", "away": "Czechia", "score1": 2, "score2": 1, "ht_score1": 0, "ht_score2": 0 },
+  { "home": "Canada", "away": "Bosnia & Herzegovina", "score1": null, "score2": null, "ht_score1": null, "ht_score2": null },
+  { "home": "USA", "away": "Paraguay", "score1": null, "score2": null, "ht_score1": null, "ht_score2": null }
 ];
 
-let teamScores = {};
+let teamScores={};
 
 function normalizeName(str) {
-  if (!str) return "";
-  return str.normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase()
-            .trim();
+    if (!str) return "";
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
 
 function findInternalTeamKey(apiName) {
-  const normApi = normalizeName(apiName);
-  if (!normApi) return null;
-
-  for (const teamKey of Object.keys(SEEDS)) {
-    if (normalizeName(teamKey) === normApi) return teamKey;
-  }
-  for (const teamKey of Object.keys(SEEDS)) {
-    const normKey = normalizeName(teamKey);
-    if (normApi.includes(normKey) || normKey.includes(normApi)) return teamKey;
-  }
-  return null;
-}
-
-function owner(team) {
-  for (const [p, teams] of Object.entries(PLAYERS)) {
-    if (teams.includes(team)) return p;
-  }
-  return "";
-}
-
-function calculateMatches(games) {
-  const scores = {};
-  Object.keys(SEEDS).forEach(t => {
-    scores[t] = { match: 0 };
-  });
-
-  if (!Array.isArray(games)) return scores;
-
-  let processedCount = 0;
-
-  games.forEach(g => {
-    const rawHome = g.home_team_en || g.home_team || g.homeTeam || g.home || g.team1 || "";
-    const rawAway = g.away_team_en || g.away_team || g.awayTeam || g.away || g.team2 || "";
-
-    const home = findInternalTeamKey(rawHome);
-    const away = findInternalTeamKey(rawAway);
-
-    const homeRawScore = g.home_score ?? g.homeScore ?? g.home_team_score ?? g.score1 ?? -1;
-    const awayRawScore = g.away_score ?? g.awayScore ?? g.away_team_score ?? g.score2 ?? -1;
-    
-    const hs = (homeRawScore === "" || homeRawScore === null) ? -1 : parseInt(homeRawScore);
-    const as = (awayRawScore === "" || awayRawScore === null) ? -1 : parseInt(awayRawScore);
-
-    if (isNaN(hs) || isNaN(as) || hs < 0 || as < 0) return;
-    if (!home || !away) return;
-
-    processedCount++;
-    if (hs > as) {
-      scores[home].match += 8;
-    } else if (as > hs) {
-      scores[away].match += 8;
-    } else {
-      scores[home].match += 4;
-      scores[away].match += 4;
+    const normApi = normalizeName(apiName);
+    if (!normApi) return null;
+    for (const teamKey of Object.keys(SEEDS)) {
+        if (normalizeName(teamKey) === normApi) return teamKey;
     }
-  });
-
-  console.log(`Successfully calculated scores for ${processedCount} completed matches.`);
-  return scores;
+    for (const teamKey of Object.keys(SEEDS)) {
+        const normKey = normalizeName(teamKey);
+        if (normApi.includes(normKey) || normKey.includes(normApi)) return teamKey;
+    }
+    return null;
 }
 
-async function refreshData() {
-  const statusBox = document.getElementById('status');
-  statusBox.innerText = 'Refreshing entries...';
-
-  const targetUrl = 'https://worldcup26.ir/get/games';
-  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl) + '&cb=' + Date.now();
-
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 1500); // Strict 1.5 second ceiling threshold
-
-  let gamesList = null;
-
-  try {
-    const response = await fetch(proxyUrl, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    
-    if (response.ok) {
-      const wrappedData = await response.json();
-      const parsedPayload = JSON.parse(wrappedData.contents);
-      
-      if (Array.isArray(parsedPayload)) {
-        gamesList = parsedPayload;
-      } else if (parsedPayload && parsedPayload.matches) {
-        gamesList = parsedPayload.matches;
-      } else if (parsedPayload && parsedPayload.games) {
-        gamesList = parsedPayload.games;
-      } else if (parsedPayload && parsedPayload.data) {
-        gamesList = parsedPayload.data;
-      }
-
-      if (Array.isArray(gamesList) && gamesList.length > 0) {
-        teamScores = calculateMatches(gamesList);
-        localStorage.setItem('wc26scores_8pt', JSON.stringify(teamScores));
-        statusBox.innerText = 'Live update: ' + new Date().toLocaleTimeString();
-      }
-    }
-  } catch (error) {
-    clearTimeout(timeoutId);
-    console.warn("Proxy response delayed or timed out. Moving to fallback stream.");
-  }
-
-  // If live data couldn't be requested or was empty, apply fallback logic
-  if (!gamesList || !Array.isArray(gamesList) || gamesList.length === 0) {
-    const backupCache = localStorage.getItem('wc26scores_8pt');
-    if (backupCache) {
-      teamScores = JSON.parse(backupCache);
-      statusBox.innerText = 'Using locally cached data';
-    } else {
-      teamScores = calculateMatches(EMBEDDED_FALLBACK_FIXTURES);
-      statusBox.innerText = 'Standby Sandbox Engine Active';
-    }
-  }
-  
-  render();
+function owner(team){
+    for(const [p,t] of Object.entries(PLAYERS)) if(t.includes(team)) return p;
+    return '';
 }
 
-function render() {
-  const teams = Object.keys(SEEDS).map(t => {
-    const match = teamScores[t] ? teamScores[t].match : 0;
-    const teamOwner = owner(t);
-    const code = FLAG_CODES[t] || 'un';
-    return {
-      team: t,
-      seed: SEEDS[t],
-      flagUrl: `https://flagcdn.com/w40/${code}.png`,
-      ownerHtml: teamOwner ? `<span class="owner-capsule-badge">${teamOwner}</span>` : `<span class="vacant-badge">—</span>`,
-      match,
-      total: SEEDS[t] + match
-    };
-  });
+function calculate(games){
+    const scores={};
+    Object.keys(SEEDS).forEach(t=>scores[t]={match:0,bonus:0});
+    if (!Array.isArray(games)) return scores;
 
-  const sortedTeams = teams.sort((a, b) => a.seed - b.seed);
-  const leftHalf = sortedTeams.slice(0, 24);
-  const rightHalf = sortedTeams.slice(24, 48);
+    games.forEach(g => {
+        const rawHome = g.team1 || g.home_team || g.home || "";
+        const rawAway = g.team2 || g.away_team || g.away || "";
+        
+        const home = findInternalTeamKey(rawHome);
+        const away = findInternalTeamKey(rawAway);
+        if(!home || !away) return;
 
-  const capsuleMapper = t => `
-    <div class="team-capsule-row">
-      <span class="rank-pill-value">${t.seed}</span>
-      <div class="flag-box-element left-align">
-        <img src="${t.flagUrl}" alt="" onerror="this.style.display='none'">
-        <span>${t.team}</span>
-      </div>
-      <div>${t.ownerHtml}</div>
-      <div class="score-cell-digits">${t.match}</div>
-      <div class="score-cell-digits" style="font-weight:700; color:#ffcc80;">${t.total}</div>
-    </div>
-  `;
+        let hs = g.score1 ?? g.home_score;
+        let as = g.score2 ?? g.away_score;
 
-  document.getElementById("teams-left").innerHTML = leftHalf.map(capsuleMapper).join("");
-  document.getElementById("teams-right").innerHTML = rightHalf.map(capsuleMapper).join("");
+        if (hs === null || hs === undefined || hs === "" || as === null || as === undefined || as === "") return;
+        hs = parseInt(hs);
+        as = parseInt(as);
+        if(isNaN(hs) || isNaN(as) || hs < 0 || as < 0) return;
 
-  const players = [];
-  for (const [name, list] of Object.entries(PLAYERS)) {
-    let seed = 0, match = 0;
-    list.forEach(t => {
-      seed += SEEDS[t];
-      match += teamScores[t] ? teamScores[t].match : 0;
+        if(hs > as) scores[home].match += 8;
+        else if(as > hs) scores[away].match += 8;
+        else { scores[home].match += 4; scores[away].match += 4; }
+
     });
-    players.push({ name, seed, match, total: seed + match });
-  }
+    return scores;
+}
 
-  players.sort((a, b) => b.total - a.total);
+async function refreshData(){
+    const statusBox = document.getElementById('status');
+    statusBox.innerText = 'Connecting...';
+    
+    const targetUrl = 'https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json';
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl) + '&cb=' + Date.now();
 
-  document.getElementById("leaderboard").innerHTML =
-    players.map((p, i) => {
-      const rankNum = i + 1;
-      let rankMarkup = `<span class="rank-pill-value">${rankNum}</span>`;
-      if (rankNum === 1) rankMarkup = `<div class="medal-circle gold-layer">${rankNum}</div>`;
-      if (rankNum === 2) rankMarkup = `<div class="medal-circle silver-layer">${rankNum}</div>`;
-      if (rankNum === 3) rankMarkup = `<div class="medal-circle bronze-layer">${rankNum}</div>`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1500); // Strict 1.5s gateway processing limit
 
-      return `
-        <div class="capsule-row">
-          <div>${rankMarkup}</div>
-          <div class="contender-name left-align">${p.name.toUpperCase()}</div>
-          <div class="score-cell-digits">${p.seed}</div>
-          <div class="score-cell-digits">${p.match}</div>
-          <div class="score-cell-digits" style="font-weight: 700; color: #ffcc80; font-size: clamp(1.1rem, 4vw, 1.5rem);">${p.total}</div>
-        </div>
-      `;
-    }).join("");
+    let games = null;
+
+    try {
+        const response = await fetch(proxyUrl, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+            const wrapper = await response.json();
+            const rawPayload = JSON.parse(wrapper.contents);
+            games = rawPayload.matches || [];
+            if (Array.isArray(games) && games.length > 0) {
+                statusBox.innerText = 'Live Stream Connected: ' + new Date().toLocaleTimeString();
+            }
+        }
+    } catch(e) {
+        clearTimeout(timeoutId);
+        console.warn("Proxy gateway timing warning. Invoking instant failover engine.");
+    }
+
+    if (games && Array.isArray(games) && games.length > 0) {
+        teamScores = calculate(games);
+        localStorage.setItem('wc26_failsafe_matrix', JSON.stringify(teamScores));
+    } else {
+        // Instant load fallback: renders from your local code data instantly with zero freeze
+        teamScores = calculate(EMBEDDED_FALLBACK_FIXTURES);
+        statusBox.innerText = 'Offline Standby Engine Active';
+    }
+    render();
+}
+
+function render(){
+    let teams=Object.keys(SEEDS).map(t=>({
+        team:t,seed:SEEDS[t],
+        match:(teamScores[t]?.match||0),
+        bonus:(teamScores[t]?.bonus||0),
+        total:SEEDS[t]+(teamScores[t]?.match||0)+(teamScores[t]?.bonus||0)
+    }));
+
+    document.getElementById('teams').innerHTML=teams.sort((a,b)=>a.seed-b.seed).map(t=>{
+        const teamOwner = owner(t.team);
+        const ownerMarkup = teamOwner ? `<span class="owner-capsule-badge">${teamOwner}</span>` : `<span class="vacant-badge">—</span>`;
+        return `
+        <div class="capsule-row team-cols">
+            <span class="rank-pill-value">${t.seed}</span>
+            <span class="contender-name team-contender-name left-align">
+                <i class="flag-icon">${FLAGS[t.team]||''}</i> ${t.team.toUpperCase()}
+            </span>
+            <div>${ownerMarkup}</div>
+            <div class="score-cell-digits">${t.seed}</div>
+            <div class="score-cell-digits">${t.match}</div>
+            <div class="score-cell-digits">${t.bonus}</div>
+            <div class="score-cell-digits" style="font-weight:700; color:#ffcc80;">${t.total}</div>
+        </div>`;
+    }).join('');
+
+    let players=[];
+    for(const [name,list] of Object.entries(PLAYERS)){
+        let seed=0,match=0,bonus=0;
+        list.forEach(t=>{
+            seed+=SEEDS[t];
+            match+=(teamScores[t]?.match||0);
+            bonus+=(teamScores[t]?.bonus||0);
+        });
+        players.push({name,seed,match,bonus,total:seed+match+bonus});
+    }
+    players.sort((a,b)=>b.total-a.total);
+
+    document.getElementById('leaderboard').innerHTML=players.map((p,i)=>{
+        const rankNum = i + 1;
+        let rankMarkup = `<span class="rank-pill-value">${rankNum}</span>`;
+        if (rankNum === 1) rankMarkup = `<div class="medal-circle med-1">${rankNum}</div>`;
+        if (rankNum === 2) rankMarkup = `<div class="medal-circle med-2">${rankNum}</div>`;
+        if (rankNum === 3) rankMarkup = `<div class="medal-circle med-3">${rankNum}</div>`;
+
+        return `
+        <div class="capsule-row leaderboard-cols">
+            <div>${rankMarkup}</div>
+            <span class="contender-name player-contender-name left-align">${p.name.toUpperCase()}</span>
+            <div class="score-cell-digits">${p.seed}</div>
+            <div class="score-cell-digits">${p.match}</div>
+            <div class="score-cell-digits">${p.bonus}</div>
+            <div class="score-cell-digits" style="font-weight:700; color:#ffcc80; font-size: clamp(0.9rem, 3.8vw, 1.5rem);">${p.total}</div>
+        </div>`;
+    }).join('');
 }
 
 refreshData();
-setInterval(refreshData, 7200000);
 </script>
 </body>
 </html>
