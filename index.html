@@ -126,12 +126,13 @@ text-align: center;
 gap: 4px;
 }
 
-.leaderboard-cols { grid-template-columns: 35px 1.5fr 40px 45px 45px 50px; }
-.team-cols { grid-template-columns: 35px 1.4fr 0.8fr 35px 35px 35px 35px; }
+/* Reconfigured track settings to distribute space across the remaining tracks cleanly */
+.leaderboard-cols { grid-template-columns: 35px 1.5fr 50px 50px 60px; }
+.team-cols { grid-template-columns: 35px 1.4fr 0.8fr 50px 50px 60px; }
 
 @media (min-width: 650px) {
-.leaderboard-cols { grid-template-columns: 80px 1fr 120px 120px 120px 120px; }
-.team-cols { grid-template-columns: 70px 1.5fr 1.2fr 100px 100px 100px 100px; }
+.leaderboard-cols { grid-template-columns: 80px 1fr 140px 140px 140px; }
+.team-cols { grid-template-columns: 70px 1.5fr 1.2fr 110px 110px 110px; }
 }
 
 .grid-headers span {
@@ -268,7 +269,6 @@ polyfillCountryFlagEmojis();
                 <span class="left-align">Player</span>
                 <span>Seed</span>
                 <span>Match</span>
-                <span>Bonus</span>
                 <span>Total</span>
             </div>
             <div id="leaderboard"></div>
@@ -284,7 +284,6 @@ polyfillCountryFlagEmojis();
                 <span>Owner</span>
                 <span>Seed</span>
                 <span>Match</span>
-                <span>Bonus</span>
                 <span>Total</span>
             </div>
             <div id="teams"></div>
@@ -317,9 +316,6 @@ const FLAGS={
     'Saudi Arabia':'🇸🇦','Jordan':'🇯🇴','Bosnia & Herzegovina':'🇧🇦','Cape Verde':'🇨🇻','Ghana':'🇬🇭','Curaçao':'🇨🇼','Haiti':'🇭🇹','New Zealand':'🇳🇿'
 };
 
-// ==========================================
-// MASTER EMBEDDED TOURNAMENT DATA MATRIX
-// ==========================================
 const EMBEDDED_FALLBACK_FIXTURES = [
   { "home": "Mexico", "away": "South Africa", "score1": 2, "score2": 0, "ht_score1": 1, "ht_score2": 0 },
   { "home": "South Korea", "away": "Czechia", "score1": 2, "score2": 1, "ht_score1": 0, "ht_score2": 0 },
@@ -354,7 +350,7 @@ function owner(team){
 
 function calculate(games){
     const scores={};
-    Object.keys(SEEDS).forEach(t=>scores[t]={match:0,bonus:0});
+    Object.keys(SEEDS).forEach(t=>scores[t]={match:0});
     if (!Array.isArray(games)) return scores;
 
     games.forEach(g => {
@@ -376,7 +372,6 @@ function calculate(games){
         if(hs > as) scores[home].match += 8;
         else if(as > hs) scores[away].match += 8;
         else { scores[home].match += 4; scores[away].match += 4; }
-
     });
     return scores;
 }
@@ -389,7 +384,7 @@ async function refreshData(){
     const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl) + '&cb=' + Date.now();
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1500); // Strict 1.5s gateway processing limit
+    const timeoutId = setTimeout(() => controller.abort(), 1500);
 
     let games = null;
 
@@ -414,7 +409,6 @@ async function refreshData(){
         teamScores = calculate(games);
         localStorage.setItem('wc26_failsafe_matrix', JSON.stringify(teamScores));
     } else {
-        // Instant load fallback: renders from your local code data instantly with zero freeze
         teamScores = calculate(EMBEDDED_FALLBACK_FIXTURES);
         statusBox.innerText = 'Offline Standby Engine Active';
     }
@@ -425,8 +419,7 @@ function render(){
     let teams=Object.keys(SEEDS).map(t=>({
         team:t,seed:SEEDS[t],
         match:(teamScores[t]?.match||0),
-        bonus:(teamScores[t]?.bonus||0),
-        total:SEEDS[t]+(teamScores[t]?.match||0)+(teamScores[t]?.bonus||0)
+        total:SEEDS[t]+(teamScores[t]?.match||0)
     }));
 
     document.getElementById('teams').innerHTML=teams.sort((a,b)=>a.seed-b.seed).map(t=>{
@@ -441,20 +434,18 @@ function render(){
             <div>${ownerMarkup}</div>
             <div class="score-cell-digits">${t.seed}</div>
             <div class="score-cell-digits">${t.match}</div>
-            <div class="score-cell-digits">${t.bonus}</div>
             <div class="score-cell-digits" style="font-weight:700; color:#ffcc80;">${t.total}</div>
         </div>`;
     }).join('');
 
     let players=[];
     for(const [name,list] of Object.entries(PLAYERS)){
-        let seed=0,match=0,bonus=0;
+        let seed=0,match=0;
         list.forEach(t=>{
             seed+=SEEDS[t];
             match+=(teamScores[t]?.match||0);
-            bonus+=(teamScores[t]?.bonus||0);
         });
-        players.push({name,seed,match,bonus,total:seed+match+bonus});
+        players.push({name,seed,match,total:seed+match});
     }
     players.sort((a,b)=>b.total-a.total);
 
@@ -471,7 +462,6 @@ function render(){
             <span class="contender-name player-contender-name left-align">${p.name.toUpperCase()}</span>
             <div class="score-cell-digits">${p.seed}</div>
             <div class="score-cell-digits">${p.match}</div>
-            <div class="score-cell-digits">${p.bonus}</div>
             <div class="score-cell-digits" style="font-weight:700; color:#ffcc80; font-size: clamp(0.9rem, 3.8vw, 1.5rem);">${p.total}</div>
         </div>`;
     }).join('');
