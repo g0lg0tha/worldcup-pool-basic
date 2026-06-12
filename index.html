@@ -126,7 +126,6 @@ text-align: center;
 gap: 4px;
 }
 
-/* Reconfigured track settings to distribute space across the remaining tracks cleanly */
 .leaderboard-cols { grid-template-columns: 35px 1.5fr 50px 50px 60px; }
 .team-cols { grid-template-columns: 35px 1.4fr 0.8fr 50px 50px 60px; }
 
@@ -422,7 +421,15 @@ function render(){
         total:SEEDS[t]+(teamScores[t]?.match||0)
     }));
 
-    document.getElementById('teams').innerHTML=teams.sort((a,b)=>a.seed-b.seed).map(t=>{
+    // Reordered array from highest total down to lowest total. Fallbacks down to seed if totals match.
+    teams.sort((a,b) => {
+        if (b.total !== a.total) {
+            return b.total - a.total;
+        }
+        return a.seed - b.seed;
+    });
+
+    document.getElementById('teams').innerHTML=teams.map(t=>{
         const teamOwner = owner(t.team);
         const ownerMarkup = teamOwner ? `<span class="owner-capsule-badge">${teamOwner}</span>` : `<span class="vacant-badge">—</span>`;
         return `
