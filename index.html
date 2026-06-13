@@ -384,66 +384,26 @@ function calculate(games){
     return scores;
 }
 
-async function refreshData(){
+async function refreshData() {
     const statusBox = document.getElementById('status');
-    statusBox.innerText = 'Connecting...';
+    statusBox.innerText = 'Loading Local Data...';
     
-    const targetUrl = 'https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json';
-    
-    // Primary URL (AllOrigins Proxy Network)
-    const primaryProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl) + '&cb=' + Date.now();
-    // Secondary URL (CorsProxy IO Backup Pipeline)
-    const secondaryProxy = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
-
-    let games = null;
-    let fallbackTriggered = false;
-
-    // PIPELINE STAGE 1: Attempt connection via primary pipeline
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000); // 4 second cap
-
-        const response = await fetch(primaryProxy, { signal: controller.signal });
-        clearTimeout(timeoutId);
+        // Fetch local file. Added timestamp query to prevent browser caching
+        const response = await fetch('matches.json?cb=' + Date.now());
         
-        if (response.ok) {
-            const wrapper = await response.json();
-            const rawPayload = JSON.parse(wrapper.contents);
-            games = rawPayload.matches || [];
-        } else {
-            throw new Error("Primary stream down");
-        }
-    } catch(e) {
-        console.warn("Primary proxy connection dropped or timed out. Redirecting to secondary line...");
+        if (!response.ok) throw new Error("File not found");
         
-        // PIPELINE STAGE 2: Seamless failover redirection via secondary CORS mirror
-        try {
-            const controller2 = new AbortController();
-            const timeoutId2 = setTimeout(() => controller2.abort(), 4000); // 4 second cap
-
-            const response = await fetch(secondaryProxy, { signal: controller2.signal });
-            clearTimeout(timeoutId2);
-
-            if (response.ok) {
-                const rawPayload = await response.json();
-                games = rawPayload.matches || [];
-            } else {
-                throw new Error("All proxies exhausted");
-            }
-        } catch(err) {
-            console.error("Secondary network failed. Falling back to local offline matrix.");
-            fallbackTriggered = true;
-        }
-    }
-
-    // PROCESSING MATRIX RESOLUTION
-    if (games && Array.isArray(games) && games.length > 0) {
+        const games = await response.json();
+        
+        // Calculate scores
         teamScores = calculate(games);
-        localStorage.setItem('wc26_failsafe_matrix', JSON.stringify(teamScores));
-        statusBox.innerText = 'Live Stream Connected: ' + new Date().toLocaleTimeString();
-    } else {
+        statusBox.innerText = 'Updated: ' + new Date().toLocaleTimeString();
+    } catch(err) {
+        console.error("Failed to load local matches.json:", err);
+        statusBox.innerText = 'Error Loading Data';
+        // Fallback to embedded if local load fails
         teamScores = calculate(EMBEDDED_FALLBACK_FIXTURES);
-        statusBox.innerText = 'Offline Standby Engine Active';
     }
     render();
 }
