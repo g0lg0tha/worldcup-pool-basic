@@ -390,7 +390,7 @@ async function refreshData() {
     
     try {
         // Fetch local file. Added timestamp query to prevent browser caching
-        const response = await fetch('matches.json?cb=' + Date.now());
+        const response = await fetch('https://raw.githubusercontent.com/g0lg0tha/worldcup-pool/main/matches.json?cb=' + Date.now());
         
         if (!response.ok) throw new Error("File not found");
         
