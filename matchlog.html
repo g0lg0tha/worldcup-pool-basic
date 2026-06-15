@@ -11,12 +11,12 @@
         .luxury-panel { background: rgba(40, 25, 15, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255, 217, 163, 0.3); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); }
         .section-title { font-family: 'Cinzel', serif; text-align: center; color: var(--gold-trim); text-transform: uppercase; margin-bottom: 20px; }
         
-        /* Updated to 6-Column Grid */
-        .match-cols { display: grid; grid-template-columns: 2fr 1.2fr 1fr 0.5fr 1fr 0.5fr; align-items: center; text-align: center; gap: 8px; background: var(--capsule-bg); padding: 12px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        /* 5-Column Grid */
+        .match-cols { display: grid; grid-template-columns: 2fr 0.8fr 1fr 0.5fr 1fr 0.5fr; align-items: center; text-align: center; gap: 8px; background: var(--capsule-bg); padding: 12px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255, 255, 255, 0.05); }
         .header-row { font-family: 'Cinzel', serif; font-weight: bold; color: #bca08d; font-size: 0.65rem; text-transform: uppercase; background: rgba(255, 217, 163, 0.1) !important; }
         
         .nav-button { background: rgba(140, 93, 67, 0.3); border: 1px solid var(--gold-trim); color: #f7dfc1; font-family: 'Cinzel', serif; font-size: 0.75rem; padding: 8px 16px; border-radius: 4px; text-decoration: none; display: inline-block; }
-        .score-box { font-family: monospace; color: var(--gold-trim); font-weight: bold; }
+        .score-box { font-family: monospace; color: var(--gold-trim); font-weight: bold; font-size: 1.1rem; }
         .owner-text { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #ebd1be; }
     </style>
 </head>
@@ -26,20 +26,16 @@
         <a href="index.html" class="nav-button">← Back</a>
         <div class="section-title">Full Match Log</div>
         <div class="match-cols header-row">
-            <span>Match</span><span>HT / FT</span><span>HT OWNER</span><span>Pts</span><span>AT OWNER</span><span>Pts</span>
+            <span>Match</span><span>Score</span><span>HT OWNER</span><span>Pts</span><span>AT OWNER</span><span>Pts</span>
         </div>
         <div id="matchLog">Loading data...</div>
     </div>
 </div>
 
 <script>
-const PLAYERS = {
-  Scully: ["Spain", "USA", "New Zealand"],
-  Bren: ["France", "Norway", "Ghana"],
-  Mick: ["Austria", "Ivory Coast", "Haiti"]
-};
+const PLAYERS = { Gordon:['Brazil','Japan','Scotland'], David:['France','Norway','Bosnia & Herzegovina'], Stephen:['Germany','Paraguay','Czechia'], Bren:['Spain','Türkiye','Saudi Arabia'], Patrick:['England','Switzerland','Ghana'], Mick:['Netherlands','Austria','Haiti'] };
+
 function owner(team) { for(const [p,t] of Object.entries(PLAYERS)) if(t.includes(team)) return p; return '—'; }
-function normalize(str) { return str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, "and").toLowerCase().trim() : ""; }
 
 function getMatchPoints(s1, s2) {
     if (s1 > s2) return 8;
@@ -49,28 +45,27 @@ function getMatchPoints(s1, s2) {
 
 async function fetchLog() {
     try {
-        const [mRes, hRes] = await Promise.all([fetch('matches.json?cb=' + Date.now()), fetch('halftime.json?cb=' + Date.now())]);
-        const games = await mRes.json();
-        const htScores = await hRes.json();
-        const htMap = {};
-        htScores.forEach(h => htMap[`${normalize(h.home)}-${normalize(h.away)}`] = {ht_home: h.ht_home, ht_away: h.ht_away});
+        const response = await fetch('matches.json?cb=' + Date.now());
+        const games = await response.json();
 
         document.getElementById('matchLog').innerHTML = games.map(g => {
-            const hName = g.home, aName = g.away;
             const hPts = getMatchPoints(g.score1, g.score2);
             const aPts = getMatchPoints(g.score2, g.score1);
             
             return `
                 <div class="match-cols">
-                    <div style="text-align:left;">${hName} vs ${aName}</div>
-                    <div class="score-box">${(htMap[`${normalize(hName)}-${normalize(aName)}`]?.ht_home ?? '-')}-${(htMap[`${normalize(hName)}-${normalize(aName)}`]?.ht_away ?? '-')} / ${g.score1}-${g.score2}</div>
-                    <div class="owner-text">${owner(hName)}</div>
+                    <div style="text-align:left;">${g.home} vs ${g.away}</div>
+                    <div class="score-box">${g.score1}-${g.score2}</div>
+                    <div class="owner-text">${owner(g.home)}</div>
                     <div>${hPts}</div>
-                    <div class="owner-text">${owner(aName)}</div>
+                    <div class="owner-text">${owner(g.away)}</div>
                     <div>${aPts}</div>
                 </div>`;
         }).join('');
-    } catch(e) { document.getElementById('matchLog').innerHTML = "Error loading data."; }
+    } catch(e) { 
+        document.getElementById('matchLog').innerHTML = "Error loading data."; 
+        console.error(e);
+    }
 }
 fetchLog();
 </script>
