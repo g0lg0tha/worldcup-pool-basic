@@ -33,8 +33,11 @@
 </div>
 
 <script>
-const PLAYERS = { Gordon:['Brazil','Japan','Scotland'], David:['France','Norway','Bosnia & Herzegovina'], Stephen:['Germany','Paraguay','Czechia'], Bren:['Spain','Türkiye','Saudi Arabia'], Patrick:['England','Switzerland','Ghana'], Mick:['Netherlands','Austria','Haiti'] };
-
+const PLAYERS = {
+  Scully: ["Spain", "USA", "New Zealand"],
+  Bren: ["France", "Norway", "Ghana"],
+  Mick: ["Austria", "Ivory Coast", "Haiti"]
+};
 function owner(team) { for(const [p,t] of Object.entries(PLAYERS)) if(t.includes(team)) return p; return '—'; }
 function normalize(str) { return str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/&/g, "and").toLowerCase().trim() : ""; }
 
