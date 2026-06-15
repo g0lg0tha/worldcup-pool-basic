@@ -45,7 +45,7 @@ function getMatchPoints(s1, s2) {
 
 async function fetchLog() {
     try {
-        const response = await fetch('matches.json?cb=' + Date.now());
+        const response = await fetch('https://g0lg0tha.github.io/worldcup-pool/matches.json?cb=' + Date.now());
         const games = await response.json();
 
         document.getElementById('matchLog').innerHTML = games.map(g => {
