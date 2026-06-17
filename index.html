@@ -349,23 +349,19 @@ function normalizeName(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
 
-function findInternalTeamKey(apiName) {
-    let normApi = normalizeName(apiName);
-    if (!normApi) return null;
-
-    // Hard override configuration mapping "United States" string variants directly to "USA"
-    if (normApi === "united states" || normApi.includes("united states") || normApi === "usa") {
-        return "USA";
-    }
-
-    for (const teamKey of Object.keys(SEEDS)) {
-        if (normalizeName(teamKey) === normApi) return teamKey;
-    }
-    for (const teamKey of Object.keys(SEEDS)) {
-        const normKey = normalizeName(teamKey);
-        if (normApi.includes(normKey) || normKey.includes(normApi)) return teamKey;
-    }
-    return null;
+function findInternalTeamKey(apiName) { 
+    let normApi = normalizeName(apiName); 
+    if (normApi === "united states" || normApi.includes("united states") || normApi === "usa") return "USA"; 
+    
+    // Explicit fix for Bosnia
+    if (normApi.toLowerCase().includes("bosnia")) return "Bosnia & Herzegovina";
+    
+    // Explicit fix for DR Congo
+    if (normApi.includes("democratic republic")) return "DR Congo";
+    
+    for (const teamKey in SEEDS) { if (normalizeName(teamKey) === normApi) return teamKey; }
+    for (const teamKey in SEEDS) { if (normApi.includes(normalizeName(teamKey))) return teamKey; }
+    return null; 
 }
 
 function owner(team){
