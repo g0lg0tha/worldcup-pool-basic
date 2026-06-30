@@ -359,6 +359,12 @@ function findInternalTeamKey(apiName) {
     // Explicit fix for DR Congo
     if (normApi.includes("democratic republic")) return "DR Congo";
     
+    // Explicit fix for Turkey / Türkiye
+    if (normApi === "turkey" || normApi === "turkiye") return "Türkiye";
+    
+    // Explicit fix for Czech Republic / Czechia
+    if (normApi.includes("czech")) return "Czechia";
+    
     for (const teamKey in SEEDS) { if (normalizeName(teamKey) === normApi) return teamKey; }
     for (const teamKey in SEEDS) { if (normApi.includes(normalizeName(teamKey))) return teamKey; }
     return null; 
