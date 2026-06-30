@@ -93,6 +93,7 @@
         }
 
         .score-box { font-family: monospace; color: var(--gold-trim); font-weight: bold; font-size: 1.1rem; }
+        .pen-note { font-family: monospace; color: #bca08d; font-weight: normal; font-size: 0.8rem; }
         .owner-text { font-family: 'Cinzel', serif; font-size: 0.8rem; color: #ebd1be; }
         .pts-text { color: var(--text-value); font-weight: bold; }
     </style>
@@ -126,10 +127,18 @@ function owner(team) {
     return '—'; 
 }
 
-function getMatchPoints(s1, s2) {
+function getMatchPoints(s1, s2, p1 = null, p2 = null) {
     if (s1 > s2) return 8;
-    if (s1 === s2) return 4;
-    return 0;
+    if (s2 > s1) return 0;
+
+    // Drawn after full time - check penalties
+    if (p1 !== null && p1 !== undefined && p2 !== null && p2 !== undefined) {
+        if (p1 > p2) return 8;
+        if (p2 > p1) return 0;
+    }
+
+    // Genuine draw
+    return 4;
 }
 
 async function fetchLog() {
@@ -138,13 +147,14 @@ async function fetchLog() {
         const games = await response.json();
 
         document.getElementById('matchLog').innerHTML = games.map(g => {
-            const hPts = getMatchPoints(g.score1, g.score2);
-            const aPts = getMatchPoints(g.score2, g.score1);
-            
+            const hPts = getMatchPoints(g.score1, g.score2, g.pen1, g.pen2);
+            const aPts = getMatchPoints(g.score2, g.score1, g.pen2, g.pen1);
+            const penNote = (g.pen1 != null && g.pen2 != null) ? `<div class="pen-note">(${g.pen1}-${g.pen2} pens)</div>` : '';
+
             return `
                 <div class="match-cols">
                     <div style="text-align:left; font-size:0.9rem;">${g.home} vs ${g.away}</div>
-                    <div class="score-box">${g.score1}-${g.score2}</div>
+                    <div class="score-box">${g.score1}-${g.score2}${penNote}</div>
                     <div class="owner-text">${owner(g.home)}</div>
                     <div class="pts-text">${hPts}</div>
                     <div class="owner-text">${owner(g.away)}</div>
