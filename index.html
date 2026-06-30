@@ -390,9 +390,24 @@ function calculate(games){
         as = parseInt(as);
         if(isNaN(hs) || isNaN(as) || hs < 0 || as < 0) return;
 
-        if(hs > as) scores[home].match += 8;
-        else if(as > hs) scores[away].match += 8;
-        else { scores[home].match += 4; scores[away].match += 4; }
+        if(hs > as) { scores[home].match += 8; return; }
+        if(as > hs) { scores[away].match += 8; return; }
+
+        // Drawn after full time - check penalties
+        let hp = g.pen1 ?? g.home_penalty_score;
+        let ap = g.pen2 ?? g.away_penalty_score;
+        if (hp !== null && hp !== undefined && hp !== "" && ap !== null && ap !== undefined && ap !== "") {
+            hp = parseInt(hp);
+            ap = parseInt(ap);
+            if (!isNaN(hp) && !isNaN(ap)) {
+                if (hp > ap) { scores[home].match += 8; return; }
+                if (ap > hp) { scores[away].match += 8; return; }
+            }
+        }
+
+        // Genuine draw
+        scores[home].match += 4;
+        scores[away].match += 4;
     });
     return scores;
 }
